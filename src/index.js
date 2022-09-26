@@ -7,6 +7,8 @@ const galleryEl = document.querySelector('.gallery');
 const formEl = document.querySelector('#search-form');
 const moreBtn = document.querySelector('.load-more');
 
+
+
 let page = 1;
 
 const itemPerPage = 40;
@@ -22,11 +24,11 @@ const totalPages = Math.ceil(500 / 40);
 
 formEl.addEventListener('submit', onSubmit);
 
-async function loadMoreCards(searchValue) {
+moreBtn.addEventListener('click', loadMoreCards);
+
+async function loadMoreCards() {
   page += 1;
   const data = await getPhoto(searchValue, page);
-
-
   createGalleryMarkup(data.hits);
   if (page === totalPages) {
     moreBtn.classList.add('visually-hidden');
@@ -39,22 +41,25 @@ function onSubmit(event) {
 
   clearMarkup(galleryEl);
 
-  searchValue = event.currentTarget[0].value;
+  searchValue = event.currentTarget.elements.searchQuery.value.trim();
+
+  if (!searchValue) {
+      console.log('no arg!');
+      return;
+    }
+
   mountData(searchValue);
 }
 
-function moreBtnClbc() {
-  loadMoreCards(searchValue);
-}
 
 async function mountData(searchValue) {
   try {
     const data = await getPhoto(searchValue, page);
 
-    moreBtn.removeEventListener('click', moreBtnClbc);
+    console.log(data.hits);
 
     moreBtn.classList.remove('visually-hidden');
-    moreBtn.addEventListener('click', moreBtnClbc);
+    
     if (data.hits.length === 0) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -65,7 +70,7 @@ async function mountData(searchValue) {
     createGalleryMarkup(data.hits);
     lightbox.refresh();
   } catch (error) {
-    console.log('error', error);
+    Notiflix.Notify.failure(error.message);
   }
 }
 
