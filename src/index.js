@@ -10,6 +10,11 @@ let page = 1;
 const itemPerPage = 40;
 let searchValue = '';
 
+let lightbox = new SimpleLightbox('.photo-card a', {
+    captionDelay: 250,
+    captionsData: 'alt',
+  });
+
 const totalPages = Math.ceil(500 / 40);
 
 formEl.addEventListener('submit', onSubmit);
@@ -23,7 +28,7 @@ async function loadMoreCards(searchValue) {
   if (page === totalPages) {
     moreBtn.classList.add('visually-hidden');
   }
-  makeLightbox();
+  lightbox.refresh();
 }
 
 function onSubmit(event) {
@@ -55,7 +60,7 @@ async function mountData(searchValue) {
 
   
     createGalleryMarkup(data.hits);
-    makeLightbox();
+    lightbox.refresh();
   } catch (error) {
     console.log('error', error);
   }
@@ -100,16 +105,12 @@ function clearMarkup(element) {
   element.innerHTML = '';
 }
 
-function makeLightbox() {
-  const linkImg = document.querySelector('.link-img');
-  linkImg.addEventListener('click', openModal);
+// function makeLightbox() {
 
-  function openModal(event) {
-    event.preventDefault();
-  }
 
-  let lightbox = new SimpleLightbox('.photo-card a', {
-    captionDelay: 250,
-    captionsData: 'alt',
-  });
-}
+//   function openModal(event) {
+//     event.preventDefault();
+//   }
+
+  
+// }
