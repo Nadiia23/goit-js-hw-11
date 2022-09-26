@@ -104,13 +104,3 @@ function createGalleryMarkup(cardsArr) {
 function clearMarkup(element) {
   element.innerHTML = '';
 }
-
-// function makeLightbox() {
-
-
-//   function openModal(event) {
-//     event.preventDefault();
-//   }
-
-  
-// }
