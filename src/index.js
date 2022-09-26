@@ -6,8 +6,11 @@ import SimpleLightbox from 'simplelightbox';
 const galleryEl = document.querySelector('.gallery');
 const formEl = document.querySelector('#search-form');
 const moreBtn = document.querySelector('.load-more');
+
 let page = 1;
+
 const itemPerPage = 40;
+
 let searchValue = '';
 
 let lightbox = new SimpleLightbox('.photo-card a', {
